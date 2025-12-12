@@ -10,6 +10,7 @@ class GabbardPlotter:
     def __init__(
         self, ax=None, dark=False, altitude_unit=u.km, period_unit=u.min
     ):
+
         self._ax = ax
         if not self._ax:
             if dark:
@@ -35,7 +36,7 @@ class GabbardPlotter:
         return apogees, perigees, periods
 
     def _static_gabbard_plot(self, orbits):
-        """Plots a Static Gabbard Plot given a list of Orbits.
+        """Plots a Static Gabbard Plot given a list of Orbits
 
         Parameters
         ----------

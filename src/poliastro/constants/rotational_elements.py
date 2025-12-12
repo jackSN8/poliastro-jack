@@ -3,6 +3,58 @@ from astropy.constants import Constant
 """
 Rotational_period_ refers to the sidereal period, relative to the stars it's the time it takes for a planet to complete one orbit.
 """
+
+rotational_period_io = Constant(
+    "rotational_period_io",
+    "Io rotational period (sidereal)",
+    1.769138,  # d
+    "d",
+    0,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+rotational_period_europa = Constant(
+    "rotational_period_europa",
+    "Europa rotational period (sidereal)",
+    3.551181,  # d
+    "d",
+    0,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+rotational_period_ganymede = Constant(
+    "rotational_period_ganymede",
+    "Ganymede rotational period (sidereal)",
+    7.154553,  # d
+    "d",
+    0,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+rotational_period_callisto = Constant(
+    "rotational_period_callisto",
+    "Callisto rotational period (sidereal)",
+    16.689018,  # d
+    "d",
+    0,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+rotational_period_titan = Constant(
+    "rotational_period_titan",
+    "Titan rotational period (sidereal)",
+    15.945421,  # d
+    "d",
+    0,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+
 rotational_period_earth = Constant(
     "rotational_period_earth",
     "Earth rotational period",

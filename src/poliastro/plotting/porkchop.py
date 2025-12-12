@@ -1,7 +1,9 @@
-"""This is the implementation of porkchop plot."""
+"""
+This is the implementation of porkchop plot
+"""
+import numpy as np
 from astropy import coordinates as coord, units as u
 from matplotlib import pyplot as plt
-import numpy as np
 
 from poliastro.bodies import (
     Earth,
@@ -23,6 +25,7 @@ from poliastro.util import norm
 
 def _get_state(body, time):
     """Computes the position of a body for a given time."""
+
     solar_system_bodies = [
         Sun,
         Mercury,
@@ -50,28 +53,29 @@ def _get_state(body, time):
 
 def _targetting(departure_body, target_body, t_launch, t_arrival):
     """This function returns the increment in departure and arrival velocities."""
+
     # Get position and velocities for departure and arrival
     rr_dpt_body, vv_dpt_body = _get_state(departure_body, t_launch)
     rr_arr_body, vv_arr_body = _get_state(target_body, t_arrival)
 
     # Transform into Orbit objects
     attractor = departure_body.parent
-    orb_dpt = Orbit.from_vectors(
+    ss_dpt = Orbit.from_vectors(
         attractor, rr_dpt_body, vv_dpt_body, epoch=t_launch
     )
-    orb_arr = Orbit.from_vectors(
+    ss_arr = Orbit.from_vectors(
         attractor, rr_arr_body, vv_arr_body, epoch=t_arrival
     )
 
     # Define time of flight
-    tof = orb_arr.epoch - orb_dpt.epoch
+    tof = ss_arr.epoch - ss_dpt.epoch
 
     if tof.to_value(u.s) <= 0:
         return None, None, None, None, None
 
     try:
         # Lambert is now a Maneuver object
-        man_lambert = Maneuver.lambert(orb_dpt, orb_arr)
+        man_lambert = Maneuver.lambert(ss_dpt, ss_arr)
 
         # Get norm delta velocities
         dv_dpt = norm(man_lambert.impulses[0][1])
@@ -102,7 +106,9 @@ targetting_vec = np.vectorize(
 
 
 class PorkchopPlotter:
-    """Class Implementation for Porkchop Plot.
+
+    """
+    Class Implementation for Porkchop Plot
 
     Parameters
     ----------
@@ -176,6 +182,7 @@ class PorkchopPlotter:
         >>> dv_launch, dev_dpt, c3dpt, c3arr, tof = porkchop_plot.porkchop()
 
         """
+
         dv_launch, dv_arrival, c3_launch, c3_arrival, tof = targetting_vec(
             self.departure_body,
             self.target_body,
@@ -197,15 +204,15 @@ class PorkchopPlotter:
         c = self.ax.contourf(
             [D.to_datetime() for D in self.launch_span],
             [A.to_datetime() for A in self.arrival_span],
-            c3_launch.astype("float64"),
-            c3_levels.astype("float64"),
+            c3_launch,
+            c3_levels,
         )
 
         line = self.ax.contour(
             [D.to_datetime() for D in self.launch_span],
             [A.to_datetime() for A in self.arrival_span],
-            c3_launch.astype("float64"),
-            c3_levels.astype("float64"),
+            c3_launch,
+            c3_levels,
             colors="black",
             linestyles="solid",
         )
@@ -215,13 +222,14 @@ class PorkchopPlotter:
         self.ax.clabel(line, inline=1, fmt="%1.1f", colors="k", fontsize=10)
 
         if self.tfl:
+
             time_levels = np.linspace(100, 500, 5)
 
             tfl_contour = self.ax.contour(
                 [D.to_datetime() for D in self.launch_span],
                 [A.to_datetime() for A in self.arrival_span],
-                tof.astype("float64"),
-                time_levels.astype("float64"),
+                tof,
+                time_levels,
                 colors="red",
                 linestyles="dashed",
                 linewidths=3.5,
@@ -232,13 +240,14 @@ class PorkchopPlotter:
             )
 
         if self.vhp:
+
             vhp_levels = np.linspace(0, self.max_vhp.to_value(u.km / u.s), 5)
 
             vhp_contour = self.ax.contour(
                 [D.to_datetime() for D in self.launch_span],
                 [A.to_datetime() for A in self.arrival_span],
-                dv_arrival.astype("float64"),
-                vhp_levels.astype("float64"),
+                dv_arrival,
+                vhp_levels,
                 colors="navy",
                 linewidths=2.0,
             )

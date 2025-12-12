@@ -1,3 +1,4 @@
+import numpy as np
 from astropy import units as u
 from astropy.coordinates import (
     GCRS as _GCRS,
@@ -14,7 +15,6 @@ from astropy.coordinates import (
     get_body_barycentric_posvel,
 )
 from astropy.coordinates.builtin_frames.utils import DEFAULT_OBSTIME
-import numpy as np
 
 from poliastro.bodies import (
     Jupiter,

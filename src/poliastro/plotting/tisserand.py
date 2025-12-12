@@ -1,17 +1,17 @@
-"""Generates Tisserand plots."""
+""" Generates Tisserand plots """
 from enum import Enum
 
+import numpy as np
 from astropy import units as u
 from matplotlib import pyplot as plt
-import numpy as np
 
-from poliastro.plotting.util import BODY_COLORS
+from poliastro.plotting._base import BODY_COLORS
 from poliastro.twobody.mean_elements import get_mean_elements
 from poliastro.util import norm
 
 
 class TisserandKind(Enum):
-    """All possible Tisserand kinds."""
+    """All possible Tisserand kinds"""
 
     APSIS = "apsis"
     ENERGY = "energy"
@@ -19,10 +19,10 @@ class TisserandKind(Enum):
 
 
 class TisserandPlotter:
-    """Generates Tisserand figures."""
+    """Generates Tisserand figures"""
 
     def __init__(self, kind=TisserandKind.APSIS, axes=None):
-        """Object initializer.
+        """Object initializer
 
         Parameters
         ----------
@@ -32,6 +32,7 @@ class TisserandPlotter:
             Axes for the figure
 
         """
+
         # Asign Tisserand kind
         self.kind = kind
 
@@ -49,7 +50,7 @@ class TisserandPlotter:
     def _solve_tisserand(
         self, body, vinf_span, num_contours, alpha_lim=(0, np.pi), N=100
     ):
-        """Solves all possible Tisserand lines with a meshgrid workflow.
+        """Solves all possible Tisserand lines with a meshgrid workflow
 
         Parameters
         ----------
@@ -71,6 +72,7 @@ class TisserandPlotter:
         Falcato Fialho Palma, section 3.6
 
         """
+
         # Generate mean orbital elements Earth
         body_rv = get_mean_elements(body).to_vectors()
         R_body, V_body = norm(body_rv.r), norm(body_rv.v)
@@ -99,7 +101,7 @@ class TisserandPlotter:
         return RR_P, RR_A, EE, TT
 
     def _build_lines(self, RR_P, RR_A, EE, TT, color):
-        """Collect lines and append them to internal data.
+        """Collect lines and append them to internal data
 
         Parameters
         ----------
@@ -111,6 +113,7 @@ class TisserandPlotter:
         lines: list
             Plotting lines for the Tisserand
         """
+
         # Plot desired kind lines
         if self.kind == TisserandKind.APSIS:
             # Generate apsis lines
@@ -127,7 +130,7 @@ class TisserandPlotter:
         return lines
 
     def plot_line(self, body, vinf, alpha_lim=(0, np.pi), color=None):
-        """Plots body Tisserand line within flyby angle.
+        """Plots body Tisserand line within flyby angle
 
         Parameters
         ----------
@@ -146,6 +149,7 @@ class TisserandPlotter:
             Apsis tisserand is the default plotting option
 
         """
+
         # HACK: to reuse Tisserand solver, we transform input Vinf into a tuple
         vinf_span = (vinf, vinf)
 
@@ -164,7 +168,7 @@ class TisserandPlotter:
         return self.ax
 
     def plot(self, body, vinf_span, num_contours=10, color=None):
-        """Plots body Tisserand for given amount of solutions within Vinf span.
+        """Plots body Tisserand for given amount of solutions within Vinf span
 
         Parameters
         ----------
@@ -183,6 +187,7 @@ class TisserandPlotter:
             Apsis tisserand is the default plotting option
 
         """
+
         # Solve Tisserand parameters
         RR_P, RR_A, EE, TT = self._solve_tisserand(
             body, vinf_span, num_contours

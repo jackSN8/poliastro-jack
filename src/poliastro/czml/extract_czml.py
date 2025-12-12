@@ -1,5 +1,7 @@
 from datetime import timezone
+from typing import Any, List
 
+import numpy as np
 from astropy import units as u
 from astropy.coordinates import CartesianRepresentation
 from astropy.time import Time, TimeDelta
@@ -17,7 +19,6 @@ from czml3.properties import (
 )
 from czml3.types import IntervalValue, TimeInterval
 from erfa import gd2gce
-import numpy as np
 
 from poliastro.bodies import Earth
 from poliastro.core.czml_utils import (
@@ -44,7 +45,7 @@ PIC_GROUNDSTATION = (
 
 
 class CZMLExtractor:
-    """A class for extracting orbitary data to Cesium."""
+    """A class for extracting orbitary data to Cesium"""
 
     def __init__(
         self,
@@ -55,7 +56,7 @@ class CZMLExtractor:
         pr_map=None,
         scene3D=True,
     ):
-        """Orbital constructor.
+        """Orbital constructor
 
         Parameters
         ----------
@@ -112,7 +113,8 @@ class CZMLExtractor:
         self._change_custom_params(*self.cust_prop)
 
     def _init_orbit_packet_cords_(self, i, rtol):
-        """Parameters
+        """
+        Parameters
         ----------
         i : int
             Index of referenced orbit
@@ -150,7 +152,8 @@ class CZMLExtractor:
         return cart_cords
 
     def _init_groundtrack_packet_cords_(self, i, rtol):
-        """Parameters
+        """
+        Parameters
         ----------
         i : int
             Index of referenced orbit
@@ -201,7 +204,9 @@ class CZMLExtractor:
         return cart_cords
 
     def _init_czml_(self):
-        """Only called at the initialization of the extractor Builds packets."""
+        """
+        Only called at the initialization of the extractor Builds packets.
+        """
         pckt = Preamble(
             name="document_packet",
             clock=IntervalValue(
@@ -218,7 +223,8 @@ class CZMLExtractor:
         self.packets.append(pckt)
 
     def _change_custom_params(self, ellipsoid, pr_map, scene3D):
-        """Change the custom properties package.
+        """
+        Change the custom properties package.
 
         Parameters
         ----------
@@ -232,6 +238,7 @@ class CZMLExtractor:
             otherwise it's the orthographic projection.
 
         """
+
         if pr_map is None:
             pr_map = (
                 "https://upload.wikimedia.org/wikipedia/commons/c/c4/Earthmap1000x500compac.jpg",
@@ -259,7 +266,8 @@ class CZMLExtractor:
         label_text=None,
         label_show=True,
     ):
-        """Adds a ground station.
+        """
+        Adds a ground station
 
         Parameters
         ----------
@@ -350,7 +358,8 @@ class CZMLExtractor:
         label_text=None,
         label_show=None,
     ):
-        """Adds an orbit.
+        """
+        Adds an orbit
 
         Parameters
         ----------
@@ -392,6 +401,7 @@ class CZMLExtractor:
         label_show : bool
             Indicates whether the label is visible
         """
+
         if N is None:
             N = self.N
 
@@ -464,6 +474,7 @@ class CZMLExtractor:
         self.packets.append(pckt)
 
         if groundtrack_show:
+
             groundtrack_color = path_color
 
             groundtrack_cords = self._init_groundtrack_packet_cords_(
@@ -529,7 +540,8 @@ class CZMLExtractor:
         label_text=None,
         label_show=None,
     ):
-        """Adds trajectory.
+        """
+        Adds trajectory.
 
         Parameters
         ----------

@@ -49,15 +49,6 @@ __all__ = [
     "GM_neptune",
     "GM_pluto",
     "GM_moon",
-    "GM_phobos",
-    "GM_deimos",
-    "GM_europa",
-    "GM_ganymede",
-    "GM_enceladus",
-    "GM_titan",
-    "GM_titania",
-    "GM_triton",
-    "GM_charon",
     "M_earth",
     "M_jupiter",
     "M_sun",
@@ -113,6 +104,59 @@ M_sun = _M_sun
 J2000_TT = time.Time("J2000", scale="tt")
 J2000_TDB = time.Time("J2000", scale="tdb")
 J2000 = J2000_TT
+
+
+# Jupiter Moons
+GM_io = Constant(
+    "GM_io",
+    "Io gravitational constant",
+    5.959916e12,
+    "m3 / (s2)",
+    0.000015e12,
+    "JPL DE441 / IAU 2015 system of astronomical constants",
+    system="si",
+)
+
+GM_europa = Constant(
+    "GM_europa",
+    "Europa gravitational constant",
+    3.202738e12,
+    "m3 / (s2)",
+    0.000018e12,
+    "JPL DE441 / IAU 2015 system of astronomical constants",
+    system="si",
+)
+
+GM_ganymede = Constant(
+    "GM_ganymede",
+    "Ganymede gravitational constant",
+    9.887819e12,
+    "m3 / (s2)",
+    0.000021e12,
+    "JPL DE441 / IAU 2015 system of astronomical constants",
+    system="si",
+)
+
+GM_callisto = Constant(
+    "GM_callisto",
+    "Callisto gravitational constant",
+    7.179289e12,
+    "m3 / (s2)",
+    0.000030e12,
+    "JPL DE441 / IAU 2015 system of astronomical constants",
+    system="si",
+)
+
+# Saturn Moon
+GM_titan = Constant(
+    "GM_titan",
+    "Titan gravitational constant",
+    8.978137e12,
+    "m3 / (s2)",
+    0.000025e12,
+    "JPL DE441 / IAU 2015 system of astronomical constants",
+    system="si",
+)
 
 GM_sun = Constant(
     "GM_sun",
@@ -248,118 +292,60 @@ GM_moon = Constant(
     system="si",
 )
 
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_phobos = Constant(
-    "GM_phobos",
-    "Phobos gravitational constant",
-    0.0007087,
-    "km3 / (s2)",
-    0.0000006,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_deimos = Constant(
-    "GM_deimos",
-    "Deimos gravitational constant",
-    0.0000962,
-    "km3 / (s2)",
-    0.0000028,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_europa = Constant(
-    "GM_europa",
-    "Europa gravitational constant",
-    3202.71210,
-    "km3 / (s2)",
-    0.00050,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_ganymede = Constant(
-    "GM_ganymede",
-    "Ganymede gravitational constant",
-    9887.83275,
-    "km3 / (s2)",
-    0.00017,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_enceladus = Constant(
-    "GM_enceladus",
-    "Enceladus gravitational constant",
-    7.21037,
-    "km3 / (s2)",
-    0.00009,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_titan = Constant(
-    "GM_titan",
-    "Titan gravitational constant",
-    8978.13710,
-    "km3 / (s2)",
-    0.00025,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_titania = Constant(
-    "GM_titania",
-    "Titania gravitational constant",
-    226.9,
-    "km3 / (s2)",
-    4.61,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_triton = Constant(
-    "GM_triton",
-    "Triton gravitational constant",
-    1428.49546,
-    "km3 / (s2)",
-    0.61603,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
-# NASA. (n.d.). Planetary satellite physical parameters. NASA.
-# from https://ssd.jpl.nasa.gov/sats/phys_par/sep.html
-GM_charon = Constant(
-    "GM_charon",
-    "Charon gravitational constant",
-    105.88,
-    "km3 / (s2)",
-    0.28,
-    "NASA Planetary Satellite Physical Parameters",
-    system="si",
-)
-
 # Archinal, B. A., Acton, C. H., A’Hearn, M. F., Conrad, A., Consolmagno,
 # G. J., Duxbury, T., … Williams, I. P. (2018). Report of the IAU Working
 # Group on Cartographic Coordinates and Rotational Elements: 2015. Celestial
 # Mechanics and Dynamical Astronomy, 130(3). doi:10.1007/s10569-017-9805-5
+
+R_mean_io = Constant(
+    "R_mean_io",
+    "Io mean radius",
+    1.8216e6,
+    "m",
+    0.1,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+R_mean_europa = Constant(
+    "R_mean_europa",
+    "Europa mean radius",
+    1.5608e6,
+    "m",
+    0.1,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+R_mean_ganymede = Constant(
+    "R_mean_ganymede",
+    "Ganymede mean radius",
+    2.6341e6,
+    "m",
+    0.1,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+R_mean_callisto = Constant(
+    "R_mean_callisto",
+    "Callisto mean radius",
+    2.4103e6,
+    "m",
+    0.1,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
+
+R_mean_titan = Constant(
+    "R_mean_titan",
+    "Titan mean radius",
+    2.5750e6,
+    "m",
+    0.1,
+    "IAU Working Group on Cartographic Coordinates and Rotational Elements: 2015",
+    system="si",
+)
 
 R_mean_earth = Constant(
     "R_mean_earth",

@@ -16,7 +16,7 @@ BODY_COLORS = {
 
 
 def generate_label(epoch, label):
-    label_ = f"{epoch.to_value('iso', subfmt='date_hm')}"
+    label_ = f"{epoch.to_value('iso', subfmt='date')}"
     if label:
         label_ += f" ({label})"
 

@@ -1,7 +1,7 @@
 import sys
 
-from astropy import units as u
 import numpy as np
+from astropy import units as u
 
 from poliastro.core.propagation import vallado as vallado_fast
 from poliastro.twobody.propagation.enums import PropagatorKind

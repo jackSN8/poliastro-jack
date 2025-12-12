@@ -1,10 +1,16 @@
+from typing import Dict, Union
+
+from astropy.coordinates.baseframe import BaseCoordinateFrame
+
 from poliastro.bodies import (
+    Body,
     Earth,
     Jupiter,
     Mars,
     Mercury,
     Neptune,
     Saturn,
+    SolarSystemPlanet,
     Sun,
     Uranus,
     Venus,

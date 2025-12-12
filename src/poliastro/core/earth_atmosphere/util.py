@@ -1,4 +1,4 @@
-"""This script holds several utilities related to atmospheric computations."""
+""" This script holds several utilities related to atmospheric computations."""
 
 from numba import njit as jit
 
@@ -19,6 +19,7 @@ def geometric_to_geopotential(z, r0):
     h: float
         Geopotential altitude.
     """
+
     h = r0 * z / (r0 + z)
     return h
 
@@ -42,6 +43,7 @@ def geopotential_to_geometric(h, r0):
     z: float
         Geometric altitude.
     """
+
     z = r0 * h / (r0 - h)
     return z
 
@@ -67,6 +69,7 @@ def gravity(z, g0, r0):
     g: float
         Gravity value at given geometric altitude.
     """
+
     g = g0 * (r0 / (r0 + z)) ** 2
     return g
 

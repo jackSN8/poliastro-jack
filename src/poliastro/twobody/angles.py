@@ -1,4 +1,6 @@
-"""Angles and anomalies."""
+"""Angles and anomalies.
+
+"""
 from astropy import units as u
 
 from poliastro.core.angles import (

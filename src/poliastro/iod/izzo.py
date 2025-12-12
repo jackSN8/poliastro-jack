@@ -1,4 +1,6 @@
-"""Izzo's algorithm for Lambert's problem."""
+"""Izzo's algorithm for Lambert's problem
+
+"""
 from astropy import units as u
 
 from poliastro.core.iod import izzo as izzo_fast

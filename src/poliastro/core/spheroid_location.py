@@ -1,51 +1,51 @@
-"""Low level calculations for oblate spheroid locations."""
+""" Low level calculations for oblate spheroid locations """
 
-from numba import njit as jit
 import numpy as np
+from numba import njit as jit
 
 from poliastro._math.linalg import norm
 
 
 @jit
-def cartesian_cords(a, c, lon, lat, h):
+def cartesian_cords(_a, _c, _lon, _lat, _h):
     """Calculates cartesian coordinates.
 
     Parameters
     ----------
-    a : float
+    _a : float
         Semi-major axis
-    c : float
+    _c : float
         Semi-minor axis
-    lon : float
+    _lon : float
         Geodetic longitude
-    lat : float
+    _lat : float
         Geodetic latitude
-    h : float
+    _h : float
         Geodetic height
 
     """
-    e2 = 1 - (c / a) ** 2
-    N = a / np.sqrt(1 - e2 * np.sin(lat) ** 2)
+    e2 = 1 - (_c / _a) ** 2
+    N = _a / np.sqrt(1 - e2 * np.sin(_lon) ** 2)
 
-    x = (N + h) * np.cos(lat) * np.cos(lon)
-    y = (N + h) * np.cos(lat) * np.sin(lon)
-    z = ((1 - e2) * N + h) * np.sin(lat)
+    x = (N + _h) * np.cos(_lon) * np.cos(_lat)
+    y = (N + _h) * np.cos(_lon) * np.sin(_lat)
+    z = ((1 - e2) * N + _h) * np.sin(_lon)
     return x, y, z
 
 
 @jit
-def f(a, c):
+def f(_a, _c):
     """Get first flattening.
 
     Parameters
     ----------
-    a : float
+    _a : float
         Semi-major axis
-    c : float
+    _c : float
         Semi-minor axis
 
     """
-    return 1 - c / a
+    return 1 - _c / _a
 
 
 @jit
@@ -89,21 +89,21 @@ def tangential_vecs(N):
 
 
 @jit
-def radius_of_curvature(a, c, lat):
+def radius_of_curvature(_a, _c, _lat):
     """Radius of curvature of the meridian at the latitude of the given location.
 
     Parameters
     ----------
-    a : float
+    _a : float
         Semi-major axis
-    c : float
+    _c : float
         Semi-minor axis
-    lat : float
+    _lat : float
         Geodetic latitude
 
     """
-    e2 = 1 - (c / a) ** 2
-    rc = a * (1 - e2) / (1 - e2 * np.sin(lat) ** 2) ** 1.5
+    e2 = 1 - (_c / _a) ** 2
+    rc = _a * (1 - e2) / (1 - e2 * np.sin(_lat) ** 2) ** 1.5
     return rc
 
 
@@ -156,16 +156,17 @@ def is_visible(cartesian_cords, px, py, pz, N):
 
 
 @jit
-def cartesian_to_ellipsoidal(a, c, x, y, z):
-    """Converts cartesian coordinates to ellipsoidal coordinates for the given ellipsoid.
+def cartesian_to_ellipsoidal(_a, _c, x, y, z):
+    """
+    Converts cartesian coordinates to ellipsoidal coordinates for the given ellipsoid.
     Instead of the iterative formula, the function uses the approximation introduced in
-    Bowring, B. R. (1976). TRANSFORMATION FROM SPATIAL TO GEOGRAPHICAL COORDINATES.
+    Bowring, B. R. (1976). TRANSFORMATION FROM SPATIAL TO GEOGRAPHICAL COORDINATES
 
     Parameters
     ----------
-    a : float
+    _a : float
         Semi-major axis
-    c : float
+    _c : float
         Semi-minor axis
     x : float
         x coordinate
@@ -175,22 +176,18 @@ def cartesian_to_ellipsoidal(a, c, x, y, z):
         z coordinate
 
     """
-    e2 = 1 - (c / a) ** 2
+    e2 = 1 - (_c / _a) ** 2
     e2_ = e2 / (1 - e2)
     p = np.sqrt(x**2 + y**2)
-    th = np.arctan(z * a / (p * c))
+    th = np.arctan(z * _a / (p * _c))
     lon = np.arctan2(
         y, x
     )  # Use `arctan2` so that lon lies in the range: [-pi, +pi]
     lat = np.arctan(
-        (z + e2_ * c * np.sin(th) ** 3) / (p - e2 * a * np.cos(th) ** 3)
+        (z + e2_ * _c * np.sin(th) ** 3) / (p - e2 * _a * np.cos(th) ** 3)
     )
 
-    v = a / np.sqrt(1 - e2 * np.sin(lat) ** 2)
-    h = (
-        np.sqrt(x**2 + y**2) / np.cos(lat) - v
-        if lat < abs(1e-18)  # to avoid errors very close and at zero
-        else z / np.sin(lat) - (1 - e2) * v
-    )
+    v = _a / np.sqrt(1 - e2 * np.sin(lat) ** 2)
+    h = x / np.cos(lat) - v if lat == 0.0 else z / np.sin(lat) - (1 - e2) * v
 
-    return lon, lat, h
+    return lat, lon, h

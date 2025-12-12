@@ -1,5 +1,5 @@
-from numba import njit as jit
 import numpy as np
+from numba import njit as jit
 from numpy import cos, sin
 
 
@@ -96,6 +96,7 @@ def planetocentric_to_AltAz(theta, phi):
     t_matrix: numpy.ndarray
         Transformation matrix
     """
+
     # Transformation matrix for converting planetocentric equatorial coordinates to topocentric horizon system.
     t_matrix = np.array(
         [

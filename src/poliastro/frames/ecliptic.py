@@ -1,3 +1,5 @@
+import erfa
+import numpy as np
 from astropy import units as u
 from astropy.coordinates import (
     BaseEclipticFrame,
@@ -16,8 +18,6 @@ from astropy.coordinates.matrix_utilities import (
     matrix_transpose,
     rotation_matrix,
 )
-import erfa
-import numpy as np
 
 from poliastro.frames.equatorial import GCRS
 
@@ -33,7 +33,8 @@ HeliocentricEclipticJ2000 = _HeliocentricEclipticJ2000
 
 
 class GeocentricSolarEcliptic(BaseEclipticFrame):
-    """This system has its X axis towards the Sun and its Z axis perpendicular to
+    """
+    This system has its X axis towards the Sun and its Z axis perpendicular to
     the plane of the Earth's orbit around the Sun (positive North). This system
     is fixed with respect to the Earth-Sun line. It is convenient for specifying
     magnetospheric boundaries. It has also been widely adopted as the system for
@@ -48,6 +49,7 @@ class GeocentricSolarEcliptic(BaseEclipticFrame):
     DynamicMatrixTransform, GCRS, GeocentricSolarEcliptic
 )
 def gcrs_to_geosolarecliptic(gcrs_coo, to_frame):
+
     if not to_frame.obstime.isscalar:
         raise ValueError(
             "To perform this transformation the obstime Attribute must be a scalar."
@@ -84,7 +86,8 @@ def geosolarecliptic_to_gcrs(from_coo, gcrs_frame):
 
 
 def _obliquity_rotation_value(equinox):
-    """Function to calculate obliquity of the earth.
+    """
+    Function to calculate obliquity of the earth.
     This uses obl06 of erfa.
     """
     jd1, jd2 = get_jd12(equinox, "tt")
@@ -93,7 +96,8 @@ def _obliquity_rotation_value(equinox):
 
 
 def _make_rotation_matrix_from_reprs(start_representation, end_representation):
-    """Return the matrix for the direct rotation from one representation to a second representation.
+    """
+    Return the matrix for the direct rotation from one representation to a second representation.
     The representations need not be normalized first.
     """
     A = start_representation.to_cartesian()
