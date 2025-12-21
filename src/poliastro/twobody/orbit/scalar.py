@@ -195,6 +195,21 @@ class Orbit(OrbitCreationMixin):
     def t_p(self):
         """Elapsed time since latest perifocal passage."""
         return self._state.t_p
+    
+    @cached_property
+    def t_a_fut(self):
+        """Elapsed time until next apofocal passage."""
+        if self._state.to_classical().ecc >= 1*u.one:
+            raise ValueError("t_a_fut is only defined for elliptical orbits.")
+        # Time from periapsis to apoapsis
+        delta_t_pa = self._state.period / 2
+        # Elapsed time since latest periapsis passage
+        t_since_tp = self._state.t_p
+        # Time until next apoapsis passage
+        t_a_fut = delta_t_pa - t_since_tp
+        if t_a_fut < 0 * u.s:
+            t_a_fut += self._state.period
+        return t_a_fut
 
     def get_frame(self):
         """Get equivalent reference frame of the orbit.
