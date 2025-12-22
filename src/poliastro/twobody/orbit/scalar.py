@@ -192,9 +192,17 @@ class Orbit(OrbitCreationMixin):
         return arglat
 
     @cached_property
-    def t_p(self):
+    def t_p_dep(self):
         """Elapsed time since latest perifocal passage."""
         return self._state.t_p
+    
+    @cached_property
+    def t_p(self):
+        """Elapsed time since latest perifocal passage."""
+        if self._state.to_classical().nu < 0 * u.rad:
+            return self._state.period + self._state.t_p
+        else:
+            return self._state.t_p
     
     @cached_property
     def t_a_fut(self):
@@ -408,6 +416,7 @@ class Orbit(OrbitCreationMixin):
 
     def __repr__(self):
         return self.__str__()
+    
 
     def propagate(self, value, method=FarnocchiaPropagator()):
         """Propagates an orbit a specified time.
