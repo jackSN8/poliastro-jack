@@ -94,6 +94,9 @@ class Body(
     def angular_velocity(self):
         return (2 * math.pi * u.rad) / self.rotational_period.to(u.s)
     
+    def hill_radius(self, a,parent, ecc=0):
+        return a*(1-ecc)*(self.mass/(3*(parent.mass+self.mass)))**(1/3)
+    
     def escape_velocity(self):
         return (2*self.k / self.R)**0.5
 

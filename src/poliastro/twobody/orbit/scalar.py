@@ -199,10 +199,10 @@ class Orbit(OrbitCreationMixin):
     @cached_property
     def t_p(self):
         """Elapsed time since latest perifocal passage."""
-        if self._state.to_classical().nu < 0 * u.rad:
-            return self._state.period + self._state.t_p
-        else:
-            return self._state.t_p
+        # if self._state.to_classical().nu < 0 * u.rad:
+        #     return self._state.period/2 + self._state.t_p
+        # else:
+        return self._state.period/2 +  self._state.t_p
     
     @cached_property
     def t_a_fut(self):
